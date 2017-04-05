@@ -30,4 +30,9 @@ public class PostService implements PostServiceInterface {
 	public Iterable<Post> findAll() {
 		return postRepository.findAll();
 	}
+
+	@Override
+	public Iterable<Post> findAllByUsername(String username) {
+		return postRepository.findAllByUsername(username);
+	}
 }

@@ -1,5 +1,7 @@
 package dk.surfstation.easyedit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -35,5 +37,14 @@ public class Post {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@JsonIgnore
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

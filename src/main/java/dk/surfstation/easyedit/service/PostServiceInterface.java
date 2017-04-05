@@ -8,4 +8,5 @@ public interface PostServiceInterface {
 	Post save(Post post);
 	Optional<Post> findOne(long id);
 	Iterable<Post> findAll();
+	Iterable<Post> findAllByUsername(String username);
 }

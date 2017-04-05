@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		String usersByUsernameQuery = "select username, password, enabled from users where username=?";
+		String usersByUsernameQuery = "SELECT username, password, enabled FROM users WHERE username=?";
 		String authoritiesByUsernameQuery = "SELECT users.username, role.name\n" +
 				"FROM users\n" +
 				"LEFT OUTER JOIN users_roles\n" +
