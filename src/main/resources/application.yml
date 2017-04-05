@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Surfstation Easy Edit
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/easyedit
+    username: easyedit
+    password: easyedit
+    driverClassName: org.postgresql.Driver
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
