@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 
 @RestController
+@RequestMapping("/api")
 public class PostController {
 	private final UserServiceInterface userService;
 	private final PostServiceInterface postService;
@@ -53,6 +54,8 @@ public class PostController {
 
 	@GetMapping("/posts/{id}")
 	public Post getPosts(@PathVariable Long id) {
-		return postService.findOne(id).orElseThrow(EntityNotFoundException::new);
+		return postService
+				.findOne(id)
+				.orElseThrow(EntityNotFoundException::new);
 	}
 }
