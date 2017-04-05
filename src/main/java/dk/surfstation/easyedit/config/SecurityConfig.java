@@ -2,6 +2,7 @@ package dk.surfstation.easyedit.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,8 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.csrf().disable();
 
 		http.csrf().disable()
-				.authorizeRequests().anyRequest().authenticated()
-				.and().httpBasic().realmName(REALM)//.authenticationEntryPoint(getBasicAuthEntryPoint())
+				.authorizeRequests()
+				.antMatchers(HttpMethod.GET, "/posts").permitAll()
+				.antMatchers("/**").authenticated()
+				.and().httpBasic().realmName(REALM)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.
 	}
 }
