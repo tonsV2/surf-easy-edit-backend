@@ -68,4 +68,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().httpBasic().realmName(REALM)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.
 	}
+
+	// Inspiration: https://spring.io/guides/gs/rest-service-cors/
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("*");
+			}
+		};
+	}
 }
