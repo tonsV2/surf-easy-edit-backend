@@ -1,5 +1,6 @@
 package dk.surfstation.easyedit.config;
 
+import org.intellij.lang.annotations.Language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final DataSource dataSource;
 	// TODO: Change realm
 	private final static String REALM = "MY_TEST_REALM";
+	@Language("SQL")
+	private final static String usersByUsernameQuery = "SELECT username, password, enabled\n" +
+			"FROM users\n" +
+			"WHERE username = ?";
+	@Language("SQL")
+	private final static String authoritiesByUsernameQuery = "SELECT users.username, role.name\n" +
+			"FROM users\n" +
+			"LEFT OUTER JOIN users_roles\n" +
+			"  ON users.id = users_roles.user_id\n" +
+			"LEFT OUTER JOIN role\n" +
+			"  ON users_roles.role_id = role.id\n" +
+			"WHERE username = ?";
 
 	@Autowired
 	public SecurityConfig(DataSource dataSource) {
@@ -31,14 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		String usersByUsernameQuery = "SELECT username, password, enabled FROM users WHERE username=?";
-		String authoritiesByUsernameQuery = "SELECT users.username, role.name\n" +
-				"FROM users\n" +
-				"LEFT OUTER JOIN users_roles\n" +
-				"  ON users.id = users_roles.user_id\n" +
-				"LEFT OUTER JOIN role\n" +
-				"  ON users_roles.role_id = role.id\n" +
-				"WHERE username = ?";
 		auth
 				.jdbcAuthentication()
 				.dataSource(dataSource)
