@@ -14,7 +14,7 @@ public class User {
 	private String password;
 	private boolean enabled;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "users_roles",
 			joinColumns = @JoinColumn(
@@ -64,5 +64,9 @@ public class User {
 
 	public List<Post> getPosts() {
 		return posts;
+	}
+
+	public Collection<Role> getRoles() {
+		return roles;
 	}
 }
