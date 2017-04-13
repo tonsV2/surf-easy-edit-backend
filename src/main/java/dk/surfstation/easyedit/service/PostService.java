@@ -27,12 +27,12 @@ public class PostService implements PostServiceInterface {
 	}
 
 	@Override
-	public Iterable<Post> findAll() {
-		return postRepository.findAll();
+	public Iterable<Post> findAllByUsername(String username) {
+		return postRepository.findAllByUsername(username);
 	}
 
 	@Override
-	public Iterable<Post> findAllByUsername(String username) {
-		return postRepository.findAllByUsername(username);
+	public void delete(long id) {
+		postRepository.delete(id);
 	}
 }

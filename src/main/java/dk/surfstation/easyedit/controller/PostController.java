@@ -53,9 +53,14 @@ public class PostController {
 	}
 
 	@GetMapping("/posts/{id}")
-	public Post getPosts(@PathVariable Long id) {
+	public Post getPost(@PathVariable long id) {
 		return postService
 				.findOne(id)
 				.orElseThrow(EntityNotFoundException::new);
+	}
+
+	@DeleteMapping("/posts/{id}")
+	public void deletePost(@PathVariable long id) {
+		postService.delete(id);
 	}
 }
