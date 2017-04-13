@@ -1,4 +1,4 @@
-package dk.surfstation.easyedit.service;
+package dk.surfstation.easyedit.repository;
 
 import dk.surfstation.easyedit.domain.User;
 import org.springframework.data.repository.CrudRepository;

@@ -8,11 +8,10 @@ import java.util.List;
 @Entity(name = "users") // Postgres doesn't like the table name "user"
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String username;
 	private String password;
-	private boolean enabled;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -52,14 +51,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public List<Post> getPosts() {
