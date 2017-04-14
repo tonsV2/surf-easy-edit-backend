@@ -28,4 +28,5 @@ export PATH=$JAVA_HOME/bin:$PATH
 cd $OPENSHIFT_REPO_DIR
 
 $M2/mvn --version
-$M2/mvn -s .openshift/settings.xml clean package
+$M2/mvn -s .openshift/settings.xml clean install
+
