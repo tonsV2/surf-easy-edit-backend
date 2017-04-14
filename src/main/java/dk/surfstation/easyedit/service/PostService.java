@@ -1,6 +1,7 @@
 package dk.surfstation.easyedit.service;
 
 import dk.surfstation.easyedit.domain.Post;
+import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,15 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	public Post save(Post post) {
+		return postRepository.save(post);
+	}
+
+	@Override
+	public Post save(String title, String content, User user) {
+		Post post = new Post();
+		post.setTitle(title);
+		post.setContent(content);
+		post.setUser(user);
 		return postRepository.save(post);
 	}
 

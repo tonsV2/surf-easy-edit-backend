@@ -1,6 +1,6 @@
 package dk.surfstation.easyedit;
 
-import dk.surfstation.easyedit.domain.Post;
+import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.service.PostServiceInterface;
 import dk.surfstation.easyedit.service.UserServiceInterface;
 import org.springframework.boot.CommandLineRunner;
@@ -32,14 +32,10 @@ public class EasyEditApplication {
 	private void initPosts(UserServiceInterface userService, PostServiceInterface postService, String username, String[] strings) {
 		Stream.of(strings)
 				.map(s -> s.split(","))
-				.map(s -> {
-					Post post = new Post();
-					post.setTitle(s[0]);
-					post.setContent(s[1]);
-					post.setUser(userService.findByUsername(username).get());
-					return post;
-				})
-				.forEach(postService::save);
+				.forEach(s -> {
+					User user = userService.findByUsername(username).get();
+					postService.save(s[0], s[1], user);
+				});
 	}
 
 	@Bean
