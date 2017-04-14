@@ -2,10 +2,10 @@
 
 set -x
 #
-#if [ ! -d $OPENSHIFT_DATA_DIR/m2/repository ]
-#then
-#    mkdir -p $OPENSHIFT_DATA_DIR/m2/repository
-#fi
+if [ ! -d $OPENSHIFT_DATA_DIR/m2/repository ]
+then
+    mkdir -p $OPENSHIFT_DATA_DIR/m2/repository
+fi
 #
 #if [ ! -d $OPENSHIFT_DATA_DIR/logs ]
 #then
