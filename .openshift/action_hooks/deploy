@@ -27,7 +27,4 @@ export PATH=$JAVA_HOME/bin:$PATH
 cd $OPENSHIFT_REPO_DIR
 
 $M2/mvn --version
-echo "Deploy before install!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 SPRING_PROFILES_ACTIVE=openshift $M2/mvn -s .openshift/settings.xml clean package
-
-echo "Deploy done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
