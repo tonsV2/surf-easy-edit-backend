@@ -31,3 +31,13 @@ spring:
 logging:
   file: ${OPENSHIFT_DATA_DIR}/logs/app.log
   level: INFO
+
+---
+
+spring:
+  profiles: docker
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://192.168.43.128:5432/easyedit
+    username: easyedit
+    password: easyedit
