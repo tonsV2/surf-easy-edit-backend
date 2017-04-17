@@ -3,6 +3,7 @@ package dk.surfstation.easyedit.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 public class Post {
@@ -14,6 +15,12 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	//	@CreationTimestamp
+	private long created;
+
+	//	@UpdateTimestamp
+	private long updated;
 
 	public Long getId() {
 		return id;
@@ -46,5 +53,27 @@ public class Post {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public long getCreated() {
+		return created;
+	}
+
+	public long getUpdated() {
+		return updated;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		updated = created = getEpochMilli();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updated = getEpochMilli();
+	}
+
+	private long getEpochMilli() {
+		return Instant.now().toEpochMilli();
 	}
 }

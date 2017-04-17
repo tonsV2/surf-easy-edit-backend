@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
-	@Query("SELECT p FROM Post p INNER JOIN p.user WHERE p.user.username = :username")
+	@Query("SELECT p FROM Post p INNER JOIN p.user WHERE p.user.username = :username ORDER BY p.updated DESC")
 	Iterable<Post> findAllByUsername(@Param("username") String username);
 }

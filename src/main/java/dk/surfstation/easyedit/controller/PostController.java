@@ -41,15 +41,32 @@ public class PostController {
 
 	@GetMapping("/posts/filter")
 	public Iterable<Post> getPosts(@RequestParam String username) {
-		return postService.findAllByUsername(username);
+		return postService
+				.findAllByUsername(username)
+				.orElseThrow(EntityNotFoundException::new);
 	}
 
-	@GetMapping("/posts")
-	public Iterable<Post> getPosts(Principal principal) {
-		return userService
-				.findByUsername(principal.getName())
+	@GetMapping("/posts/latest")
+	public Post getLatest(@RequestParam String username) {
+		return postService
+				.findLatestByUsername(username)
+				.orElseThrow(EntityNotFoundException::new);
+	}
+
+	@GetMapping("/posts/latest/title")
+	public String getLatestTitle(@RequestParam String username) {
+		return postService
+				.findLatestByUsername(username)
 				.orElseThrow(EntityNotFoundException::new)
-				.getPosts();
+				.getTitle();
+	}
+
+	@GetMapping("/posts/latest/content")
+	public String getLatestContent(@RequestParam String username) {
+		return postService
+				.findLatestByUsername(username)
+				.orElseThrow(EntityNotFoundException::new)
+				.getContent();
 	}
 
 	@GetMapping("/posts/{id}")

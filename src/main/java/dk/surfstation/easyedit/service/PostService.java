@@ -37,8 +37,13 @@ public class PostService implements PostServiceInterface {
 	}
 
 	@Override
-	public Iterable<Post> findAllByUsername(String username) {
-		return postRepository.findAllByUsername(username);
+	public Optional<Iterable<Post>> findAllByUsername(String username) {
+		return Optional.of(postRepository.findAllByUsername(username));
+	}
+
+	@Override
+	public Optional<Post> findLatestByUsername(String username) {
+		return Optional.of(postRepository.findAllByUsername(username).iterator().next());
 	}
 
 	@Override
