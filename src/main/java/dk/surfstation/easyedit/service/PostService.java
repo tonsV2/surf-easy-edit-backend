@@ -6,6 +6,7 @@ import dk.surfstation.easyedit.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,7 @@ public class PostService implements PostServiceInterface {
 	}
 
 	@Override
+	@Transactional
 	public Optional<Iterable<Post>> findAllByUsername(String username) {
 		return Optional.of(postRepository.findAllByUsername(username));
 	}
