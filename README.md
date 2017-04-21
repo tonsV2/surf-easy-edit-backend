@@ -1,6 +1,14 @@
 # Run app
 ./mvnw spring-boot:run
 
+# Run with https
+./mvnw spring-boot:run -Drun.profiles=https
 
-# Build docker image
+https://localhost:8443/api/posts/filter?username=tons
+
+# Docker
+## Build image
 ./mvnw package docker:build
+
+## Run container
+docker-compose down && docker-compose up -d --build
