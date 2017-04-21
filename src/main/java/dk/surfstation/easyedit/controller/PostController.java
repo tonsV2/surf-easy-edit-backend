@@ -39,6 +39,13 @@ public class PostController {
 		}
 	}
 
+	@GetMapping("/posts/all")
+	public Iterable<Post> getAllPosts(Principal principal) {
+		return postService
+				.findAllByUsername(principal.getName())
+				.orElseThrow(EntityNotFoundException::new);
+	}
+
 	@GetMapping("/posts/filter")
 	public Iterable<Post> getPosts(@RequestParam String username) {
 		return postService
