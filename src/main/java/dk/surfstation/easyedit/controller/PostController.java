@@ -39,7 +39,7 @@ public class PostController {
 		}
 	}
 
-	@GetMapping("/posts/all")
+	@GetMapping("/posts")
 	public Iterable<Post> getAllPosts(Principal principal) {
 		return postService
 				.findAllByUsername(principal.getName())
