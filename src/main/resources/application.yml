@@ -39,6 +39,8 @@ spring:
     url: jdbc:postgresql://db:5432/easyedit
     username: easyedit
     password: easyedit
+server:
+  port: 80
 
 ---
 
