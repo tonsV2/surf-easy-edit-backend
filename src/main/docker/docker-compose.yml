@@ -2,13 +2,17 @@ version: '2'
 
 services:
   backend:
-#    build:
-#      context: ../../../target/docker
-#      dockerfile: Dockerfile
-    image: easyedit
+    build:
+      context: ../../../target/docker
+      dockerfile: Dockerfile
+#    image: easyedit
     container_name: surf-easyedit-backend
     ports:
-      - 8080:80
+      - 8080:8080
+    environment:
+      - VIRTUAL_HOST=api.easyedit.surfstation.dk
+#    expose:
+#      - 80
 
   db:
     image: postgres:9.6-alpine
@@ -16,7 +20,7 @@ services:
     environment:
       - POSTGRES_USER=easyedit
       - POSTGRES_PASSWORD=easyedit
-#      - POSTGRES_DB=easyedit
+      - POSTGRES_DB=easyedit
     volumes:
       - surf-easyedit-db:/var/lib/postgresql/data
 
@@ -26,9 +30,13 @@ services:
     image: nginx:stable-alpine
     container_name: surf-easyedit-frontend
     volumes:
-      - ../../../src/main/resources/static/my-project/dist:/var/www
+      - ../../../../surf-easy-edit-frontend/dist/:/usr/share/nginx/html
     ports:
       - 8081:80
+    environment:
+      - VIRTUAL_HOST=easyedit.surfstation.dk
+    expose:
+      - 80
 
 volumes:
   surf-easyedit-db:

@@ -8,7 +8,7 @@ https://localhost:8443/api/posts/filter?username=tons
 
 # Docker
 ## Build image
-./mvnw package docker:build
+./mvnw clean package docker:build
 
 ## Run container
 docker-compose down && docker-compose up -d --build
