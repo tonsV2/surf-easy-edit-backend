@@ -26,11 +26,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/posts/latest")
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/title")
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/content")
+				.antMatchers(HttpMethod.GET, "/api/feed")
 				.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/api/posts/filter").permitAll()
 				.antMatchers(HttpMethod.GET, "/my-project/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/posts/latest", "/api/posts/latest/title", "/api/posts/latest/content").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/feed").permitAll()
 				.anyRequest()
 				.authenticated();
 	}
