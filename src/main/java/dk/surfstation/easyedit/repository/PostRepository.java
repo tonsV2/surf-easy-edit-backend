@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT p FROM Post p INNER JOIN p.user WHERE p.user.username = :username ORDER BY p.updated DESC")
 	Iterable<Post> findAllByUsername(@Param("username") String username);
+
+	@Query("SELECT p FROM Post p INNER JOIN p.user WHERE p.user.username = :username AND p.updated = (SELECT MAX(p.created) FROM Post p)")
+	Post findLatestByUsername(@Param("username") String username);
 }

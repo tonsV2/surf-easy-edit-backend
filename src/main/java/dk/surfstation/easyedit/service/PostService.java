@@ -46,8 +46,7 @@ public class PostService implements PostServiceInterface {
 	@Override
 	@Transactional
 	public Optional<Post> findLatestByUsername(String username) {
-		// TODO: This is bad... Is there a better way?
-		return Optional.of(postRepository.findAllByUsername(username).iterator().next());
+		return Optional.of(postRepository.findLatestByUsername(username));
 	}
 
 	@Override
