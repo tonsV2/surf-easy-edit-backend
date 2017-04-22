@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/api")
 public class RssController {
@@ -25,13 +22,10 @@ public class RssController {
 
 	@GetMapping(value = "/feed")
 	public ModelAndView getFeed(@RequestParam String username) {
+		Iterable<Post> posts = postService.findAllByUsername(username);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setView(view);
-
-		Optional<Iterable<Post>> optional = postService.findAllByUsername(username);
-		Iterable<Post> posts = optional.orElse(Collections.EMPTY_LIST);
 		modelAndView.addObject("posts", posts);
-
 		return modelAndView;
 	}
 }

@@ -9,7 +9,7 @@ public interface PostServiceInterface {
 	Post save(Post post);
 	Post save(String title, String content, User user);
 	Optional<Post> findOne(long id);
-	Optional<Iterable<Post>> findAllByUsername(String username);
+	Iterable<Post> findAllByUsername(String username);
 	Optional<Post> findLatestByUsername(String username);
 	void delete(long id);
 }

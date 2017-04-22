@@ -39,8 +39,10 @@ public class PostRssFeedView extends AbstractRssFeedView {
 
 	@Override
 	protected List<Item> buildFeedItems(Map<String, Object> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-			return Streams
-					.stream((Iterable<Post>) map.get("posts"))
+		@SuppressWarnings("unchecked")
+		Iterable<Post> posts = (Iterable<Post>) map.get("posts");
+		return Streams
+					.stream(posts)
 					.map(this::createItem)
 					.collect(Collectors.toList());
 	}
