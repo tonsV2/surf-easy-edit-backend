@@ -62,18 +62,12 @@ public class PostController {
 
 	@GetMapping("/posts/latest/title")
 	public String getLatestTitle(@RequestParam String username) {
-		return postService
-				.findLatestByUsername(username)
-				.orElseThrow(EntityNotFoundException::new)
-				.getTitle();
+		return getLatest(username).getTitle();
 	}
 
 	@GetMapping("/posts/latest/content")
 	public String getLatestContent(@RequestParam String username) {
-		return postService
-				.findLatestByUsername(username)
-				.orElseThrow(EntityNotFoundException::new)
-				.getContent();
+		return getLatest(username).getContent();
 	}
 
 	@GetMapping("/posts/{id}")
