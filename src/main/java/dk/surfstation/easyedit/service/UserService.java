@@ -60,6 +60,11 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	}
 
 	@Override
+	public Iterable<User> findAll() {
+		return userRepository.findAll();
+	}
+
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return findByUsername(username)
 				.map(user -> {

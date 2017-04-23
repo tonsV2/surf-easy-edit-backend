@@ -1,5 +1,7 @@
 package dk.surfstation.easyedit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +14,7 @@ public class User {
 	private long id;
 	@Column(unique = true)
 	private String username;
+	@JsonIgnore
 	private String password;
 	private String editId;
 
@@ -24,6 +27,7 @@ public class User {
 					name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
 
+	@JsonIgnore
 	@OneToMany(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,

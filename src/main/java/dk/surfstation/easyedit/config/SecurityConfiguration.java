@@ -31,10 +31,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/posts/latest").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/title").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/content").permitAll()
+
 				.antMatchers(HttpMethod.GET, "/api/feed").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/feed/latest").permitAll()
+
 				.antMatchers(HttpMethod.GET, "/api/edit/*").permitAll()
 				.antMatchers(HttpMethod.PUT, "/api/edit/*").permitAll()
+
+				.antMatchers(HttpMethod.GET, "/api/users").permitAll()
+
 				.antMatchers(HttpMethod.GET, "/v2/**", "/swagger-resources/**", "/swagger-ui.html").permitAll()
 				.anyRequest()
 				.authenticated();
