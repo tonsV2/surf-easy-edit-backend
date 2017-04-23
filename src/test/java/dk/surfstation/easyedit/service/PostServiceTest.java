@@ -2,7 +2,6 @@ package dk.surfstation.easyedit.service;
 
 import dk.surfstation.easyedit.domain.Post;
 import dk.surfstation.easyedit.domain.User;
-import org.apache.commons.lang.RandomStringUtils;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,8 +29,8 @@ public class PostServiceTest {
 	@Autowired
 	private PostServiceInterface postService;
 
-	private String username = "test" + RandomStringUtils.randomAlphanumeric(20).toUpperCase();
-	private String password = "test";
+	private String username;
+	private String password;
 	private User user;
 	private List<Long> postIds = new ArrayList<>();
 	private long postId;
@@ -38,6 +38,9 @@ public class PostServiceTest {
 
 	@Before
 	public void setup() {
+		username = "test" + UUID.randomUUID().toString();
+		password = "test";
+
 		user = userService.save(username, password);
 
 		Post post0 = postService.save("title0", "content0", user);
