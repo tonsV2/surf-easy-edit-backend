@@ -4,8 +4,10 @@ import dk.surfstation.easyedit.domain.Post;
 import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	public Optional<Post> findOne(long id) {
-		return Optional.of(postRepository.findOne(id));
+		return Optional.ofNullable(postRepository.findOne(id));
 	}
 
 	@Override
@@ -46,11 +48,16 @@ public class PostService implements PostServiceInterface {
 	@Override
 	@Transactional
 	public Optional<Post> findLatestByUsername(String username) {
-		return Optional.of(postRepository.findLatestByUsername(username));
+		Post latestByUsername = postRepository.findLatestByUsername(username);
+		return Optional.ofNullable(latestByUsername);
 	}
 
 	@Override
 	public void delete(long id) {
-		postRepository.delete(id);
+		try {
+			postRepository.delete(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException();
+		}
 	}
 }

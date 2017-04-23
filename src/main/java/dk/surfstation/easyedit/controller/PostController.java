@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -27,10 +28,12 @@ public class PostController {
 	@PostMapping("/posts")
 	@SuppressWarnings("unchecked")
 	public ResponseEntity<?> postPost(@RequestBody Post post, Principal principal) {
-		User user = userService
-				.findByUsername(principal.getName())
-				.orElseThrow(EntityNotFoundException::new);
-		post.setUser(user);
+		Optional<User> user = userService.findByUsername(principal.getName());
+		if (!user.isPresent()) {
+			// TODO: Is this really what we want to return in case the username of Principal doesn't exists???
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		post.setUser(user.get());
 		Post save = postService.save(post);
 		if (save != null) {
 			return new ResponseEntity(save, HttpStatus.CREATED);
@@ -50,31 +53,36 @@ public class PostController {
 	}
 
 	@GetMapping("/posts/latest")
-	public Post getLatest(@RequestParam String username) {
-		return postService
-				.findLatestByUsername(username)
-				.orElseThrow(EntityNotFoundException::new);
+	public ResponseEntity<Post> getLatest(@RequestParam String username) {
+		Optional<Post> post = postService.findLatestByUsername(username);
+		return post.map(p -> new ResponseEntity<>(p, HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping("/posts/latest/title")
 	public String getLatestTitle(@RequestParam String username) {
-		return getLatest(username).getTitle();
+		return getLatest(username).getBody().getTitle();
 	}
 
 	@GetMapping("/posts/latest/content")
 	public String getLatestContent(@RequestParam String username) {
-		return getLatest(username).getContent();
+		return getLatest(username).getBody().getContent();
 	}
 
 	@GetMapping("/posts/{id}")
-	public Post getPost(@PathVariable long id) {
-		return postService
-				.findOne(id)
-				.orElseThrow(EntityNotFoundException::new);
+	public ResponseEntity<Post> getPost(@PathVariable long id) {
+		Optional<Post> post = postService.findOne(id);
+		return post.map(p -> new ResponseEntity<>(p, HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@DeleteMapping("/posts/{id}")
-	public void deletePost(@PathVariable long id) {
-		postService.delete(id);
+	public ResponseEntity<Object> deletePost(@PathVariable long id) {
+		try {
+			postService.delete(id);
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().build();
 	}
 }
