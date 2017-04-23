@@ -13,6 +13,7 @@ public class User {
 	@Column(unique = true)
 	private String username;
 	private String password;
+	private String editId;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -52,6 +53,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEditId() {
+		return editId;
+	}
+
+	public void setEditId(String editId) {
+		this.editId = editId;
 	}
 
 	public List<Post> getPosts() {

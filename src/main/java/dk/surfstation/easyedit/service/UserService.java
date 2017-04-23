@@ -16,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,8 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(passwordEncoder.encode(password));
+		String editId = UUID.randomUUID().toString();
+		user.setEditId(editId);
 		return userRepository.save(user);
 	}
 
@@ -49,6 +52,11 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException();
 		}
+	}
+
+	@Override
+	public Optional<User> findByEditId(String editId) {
+		return userRepository.findByEditId(editId);
 	}
 
 	@Override
