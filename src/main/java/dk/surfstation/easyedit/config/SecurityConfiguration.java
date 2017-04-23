@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
@@ -21,9 +21,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// TODO: WTF... Learn and fix this!
 		http
-				.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+// Whats the difference? Beside one being cookie based and the other session...
+//				.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+				.csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
 				.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/api/posts/filter").permitAll()
@@ -31,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/title").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/posts/latest/content").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/feed").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/feed/latest").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/edit/*").permitAll()
 				.antMatchers(HttpMethod.PUT, "/api/edit/*").permitAll()
 				.antMatchers(HttpMethod.GET, "/app/**").permitAll()
