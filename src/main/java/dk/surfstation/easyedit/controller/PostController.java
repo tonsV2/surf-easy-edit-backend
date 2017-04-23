@@ -66,6 +66,7 @@ public class PostController {
 
 	@GetMapping("/posts/latest/content")
 	public String getLatestContent(@RequestParam String username) {
+		// TODO: getBody can return null... Delete all tables beside users
 		return getLatest(username).getBody().getContent();
 	}
 
