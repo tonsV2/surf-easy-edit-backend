@@ -134,6 +134,8 @@ public class PostServiceTest {
 		postService.delete(id);
 
 		// Then
+		Optional<Post> post = postService.findOne(postId);
+		assertFalse(post.isPresent());
 	}
 
 }
