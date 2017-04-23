@@ -4,12 +4,14 @@ import dk.surfstation.easyedit.domain.Role;
 import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -37,6 +39,15 @@ public class UserService implements UserServiceInterface {
 	@Override
 	public Optional<User> findByUsername(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public void delete(long id) {
+		try {
+			userRepository.delete(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException();
+		}
 	}
 
 	@Override
