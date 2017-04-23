@@ -34,7 +34,7 @@ public class PostRssFeedView extends AbstractRssFeedView {
 	protected void buildFeedMetadata(Map<String, Object> model, Channel feed, HttpServletRequest request) {
 		feed.setTitle("Surfstation Easy Edit Rss Feed");
 		feed.setDescription("Some description");
-		feed.setLink("Some link");
+		feed.setLink("http://surfstation.dk");
 	}
 
 	@Override
