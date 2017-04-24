@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
@@ -22,10 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-// Whats the difference? Beside one being cookie based and the other session...
-//				.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())
-				.csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
-				.and()
+				.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/api/posts/filter").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/posts/latest").permitAll()
