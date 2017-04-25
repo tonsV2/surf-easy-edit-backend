@@ -17,6 +17,9 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+data:
+  users: surfstation, engelsborg, houhavn, saebyhavn, skagenhavn, lynettenhavn, helsingoerhavn, nykoebinghavn
+
 ---
 
 spring:
