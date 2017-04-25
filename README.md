@@ -12,3 +12,12 @@ https://localhost:8443/api/posts/filter?username=tons
 
 ## Run container
 docker-compose down && docker-compose up -d --build
+
+# Deploy
+
+## Openshift
+ * Merge master into openshift and change to that branch
+ * npm run build
+ * copy the content of dist/ to /src/main/resource/static/
+ * Commit everything to the branch openshift
+ * git push (prod|dev) openshift
