@@ -20,4 +20,4 @@ docker-compose down && docker-compose up -d --build
  * npm run build
  * copy the content of dist/ to /src/main/resource/static/
  * Commit everything to the branch openshift
- * git push (prod|dev) openshift
+ * git push (prod|dev) openshift:master # Push the local branch openshift to the remote branch master
