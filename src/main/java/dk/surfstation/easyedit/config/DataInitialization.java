@@ -12,14 +12,28 @@ import java.util.stream.Stream;
 
 @Component
 public class DataInitialization {
+	private final UserServiceInterface userService;
+	private final PostServiceInterface postService;
+	private final String[] users;
+
 	DataInitialization(UserServiceInterface userService, PostServiceInterface postService, @Value("${data.users}") String[] users) {
+		this.userService = userService;
+		this.postService = postService;
+		this.users = users;
+
+		createData();
+	}
+
+	private void createData() {
 		if (!userService.findByUsername("surfstation").isPresent()) {
 			Arrays.stream(users)
 					.map(s -> s.split(","))
 //					.forEach(s -> userService.save(s[0], s[1]));
 					.forEach(s -> {
+						String username = s[0];
 						String password = UUID.randomUUID().toString();
-						userService.save(s[0], password);
+						System.out.println(String.format("User: %s:%s", username, password));
+						userService.save(username, password);
 					});
 			initPosts(userService, postService, "surfstation", new String[]{"title,content", "other title,other content", "yet another title,yet some more content"});
 		}
