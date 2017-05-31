@@ -25,13 +25,24 @@ data:
 spring:
   profiles: openshift
   datasource:
-    platform: postgres
     url: jdbc:postgresql://${OPENSHIFT_POSTGRESQL_DB_HOST}:${OPENSHIFT_POSTGRESQL_DB_PORT}/${OPENSHIFT_APP_NAME}
     username: ${OPENSHIFT_POSTGRESQL_DB_USERNAME}
     password: ${OPENSHIFT_POSTGRESQL_DB_PASSWORD}
 logging:
   file: ${OPENSHIFT_DATA_DIR}/logs/app.log
   level: INFO
+
+---
+
+spring:
+  profiles: heroku
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    maxActive: 10
+    maxIdle: 5
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
 
 ---
 

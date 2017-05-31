@@ -21,3 +21,8 @@ docker-compose down && docker-compose up -d --build
  * copy the content of dist/ to /src/main/resource/static/
  * Commit everything to the branch openshift
  * git push (prod|dev) openshift:master # Push the local branch openshift to the remote branch master
+
+## Heroku
+ * heroku create --region eu
+ * heroku config:set SPRING_PROFILES_ACTIVE=heroku
+ * git push --force heroku openshift:master
