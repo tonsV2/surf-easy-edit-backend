@@ -26,3 +26,5 @@ docker-compose down && docker-compose up -d --build
  * heroku create --region eu
  * heroku config:set SPRING_PROFILES_ACTIVE=heroku
  * git push --force heroku openshift:master
+
+### https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
