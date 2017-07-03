@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity(name = "users") // Postgres doesn't like the table name "user"
+@Entity //(name = "users") // Postgres doesn't like the table name "user"
+		// @Table doesn't alter hql, with @Entity... Select * from users;
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
