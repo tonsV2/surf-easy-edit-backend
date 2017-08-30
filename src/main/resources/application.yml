@@ -70,3 +70,18 @@ server:
     keyAlias: tomcat
 security:
   require-ssl: true
+
+---
+
+spring:
+  profiles: test
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+    driverClassName: org.h2.Driver
+
