@@ -18,7 +18,7 @@ spring:
       write-dates-as-timestamps: false
 
 data:
-  users: surfstation, engelsborg, houhavn, saebyhavn, skagenhavn, lynettenhavn, helsingoerhavn, nykoebinghavn
+  users: surfstation, engelsborg2, engelsborg, houhavn, saebyhavn, skagenhavn, lynettenhavn, helsingoerhavn, nykoebinghavn
 
 ---
 
