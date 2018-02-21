@@ -1,6 +1,13 @@
+FROM alpine/git as clone
+WORKDIR /app
+RUN git clone https://github.com/tonsV2/surf-easy-edit-backend.git .
+
+FROM openjdk:8-jdk-alpine as build
+#COPY --from=clone /app /app
+ADD . /app
+WORKDIR /app
+RUN ./mvnw package -DskipTests
+
 FROM openjdk:8-jre-alpine
-# Match path from application.yml ... But shouldn't we just make a "new" path under the docker profile?
-#ADD keystore.p12 keystore.p12
-ADD target/easy-edit-*.jar /app.jar
-CMD ["/usr/bin/java", "-jar", "-Dspring.profiles.active=docker", "/app.jar"]
-#CMD ["JAVA_OPTS=-Dspring.profiles.active=docker", "./app.jar"]
+COPY --from=build /app/target/easy-edit-*.jar .
+CMD java -jar *.jar
