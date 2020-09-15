@@ -3,9 +3,9 @@ package dk.surfstation.easyedit.controller;
 import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -18,7 +18,12 @@ public class UserController {
 	}
 
 	@GetMapping("/users")
-	public Iterable<User> getAllPosts() {
+	public Iterable<User> getAllUsers() {
 		return userService.findAll();
+	}
+
+	@PostMapping("/users")
+	public User postUsers(@RequestBody User user) {
+		return userService.save(user.getUsername(), UUID.randomUUID().toString());
 	}
 }

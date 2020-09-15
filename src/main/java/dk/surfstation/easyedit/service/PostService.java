@@ -36,7 +36,7 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	public Optional<Post> findOne(long id) {
-		return Optional.ofNullable(postRepository.findOne(id));
+		return postRepository.findById(id);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class PostService implements PostServiceInterface {
 	@Override
 	public void delete(long id) {
 		try {
-			postRepository.delete(id);
+			postRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException();
 		}
