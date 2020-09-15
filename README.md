@@ -28,3 +28,17 @@ docker-compose down && docker-compose up -d --build
  * git push --force heroku openshift:master
 
 ### https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
+
+## Create new user
+* Duplicate row from users table
+* http://easyedit.surfstation.dk/#/users
+* 
+
+# Get edit id
+set EDIT_ID (http :8080/api/users | jq -r '.[] | select(.username == "helsingoerhavn") | .editId')
+# Post content
+echo -n "Some content" | http :8080/api/edit/$EDIT_ID
+# Get all content
+http ':8080/api/feed?username=helsingoerhavn'
+# Get latest content
+http ':8080/api/feed/latest?username=helsingoerhavn'
