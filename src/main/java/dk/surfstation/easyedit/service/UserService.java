@@ -48,7 +48,7 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	@Override
 	public void delete(long id) {
 		try {
-			userRepository.delete(id);
+			userRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException();
 		}

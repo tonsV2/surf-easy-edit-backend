@@ -7,6 +7,9 @@ import dk.surfstation.easyedit.service.UserServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
@@ -47,6 +50,31 @@ public class EditController {
 				Post save = postService.save(post.get());
 				return ResponseEntity.ok(save);
 			}
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	@PostMapping(value = "/edit/{id}")
+	public ResponseEntity<Post> postEditForm(@PathVariable String id, @RequestBody String content) throws UnsupportedEncodingException {
+		// For some reason axios submits a string where spaces are replaced by + and with a trailing =
+		// This is probably due to the content being sent as application/x-www-form-urlencoded
+		// This should be investigated further and fix differently than what I'm doing here... But time and money :-/
+		String decodedContent = URLDecoder.decode(content, StandardCharsets.UTF_8.toString());
+
+		String trimmedContent;
+		if (decodedContent.endsWith("=")) {
+			trimmedContent = decodedContent.substring(0, decodedContent.length() - 1);
+		} else {
+			trimmedContent = decodedContent;
+		}
+
+		Optional<User> user = userService.findByEditId(id);
+		if (user.isPresent()) {
+			Post post = new Post();
+			post.setContent(trimmedContent);
+			post.setUser(user.get());
+			Post save = postService.save(post);
+			return ResponseEntity.ok(save);
 		}
 		return ResponseEntity.notFound().build();
 	}

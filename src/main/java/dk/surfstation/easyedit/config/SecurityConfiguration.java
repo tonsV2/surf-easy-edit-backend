@@ -22,6 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
+				.requestMatchers()
+				// TODO: This doesn't work! It only works if all the antMatchers from below are duplicated here... Not sure why!
+				.antMatchers(HttpMethod.GET, "/")
+				.and()
 				.authorizeRequests()
 
 				.antMatchers(HttpMethod.GET, "/api/posts/filter").permitAll()
