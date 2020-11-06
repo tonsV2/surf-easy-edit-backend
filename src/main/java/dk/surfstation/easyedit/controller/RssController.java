@@ -8,9 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Controller
 @RequestMapping("/api")
@@ -35,13 +38,14 @@ public class RssController {
 	@GetMapping(value = "/feed/latest")
 	public ModelAndView getLatestFeed(@RequestParam String username) {
 		Optional<Post> post = postService.findLatestByUsername(username);
+
+		if (!post.isPresent()) {
+			throw new ResponseStatusException(NOT_FOUND);
+		}
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setView(view);
-		if (post.isPresent()) {
-			modelAndView.addObject("posts", Lists.newArrayList(post.get()));
-		} else{
-			modelAndView.addObject("posts", null);
-		}
+		modelAndView.addObject("posts", Lists.newArrayList(post.get()));
 		return modelAndView;
 	}
 }
