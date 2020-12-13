@@ -57,6 +57,16 @@ spring:
 ---
 
 spring:
+  profiles: kubernetes
+  datasource:
+    platform: postgres
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+---
+
+spring:
   profiles: test
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
