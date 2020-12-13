@@ -92,6 +92,30 @@
 					<executable>true</executable>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.7.0</version>
+				<configuration>
+					<from>
+						<image>adoptopenjdk:11.0.5_10-jre-hotspot</image>
+					</from>
+					<to>
+						<image>tons/surf-easy-edit</image>
+					</to>
+					<container>
+						<user>nobody</user>
+					</container>
+					<extraDirectories>
+						<paths>
+							<path>
+								<from>../surf-easy-edit-frontend/dist</from>
+								<into>/app/resources/static</into>
+							</path>
+						</paths>
+					</extraDirectories>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

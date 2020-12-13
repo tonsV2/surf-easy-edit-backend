@@ -1,10 +1,13 @@
-# Run app
-./mvnw spring-boot:run
+# Build using Jib
+Build surf-easy-edit-frontend using `npm run build` and make sure the path in `pom.xml:112` is set accordingly. Afterwards run the below command to build and push a new image to Docker Hub.
+```bash
+./mvnw clean compile jib:build
+```
 
-# Run with https
-./mvnw spring-boot:run -Drun.profiles=https
-
-https://localhost:8443/api/posts/filter?username=tons
+# The image can be tested locally by running
+```bash
+docker pull tons/surf-easy-edit && docker run -it -e SPRING_PROFILES_ACTIVE=test -p 8080:8080 tons/surf-easy-edit
+```
 
 # Docker
 ## Build image

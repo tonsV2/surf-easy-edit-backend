@@ -42,6 +42,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.antMatchers(HttpMethod.GET, "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html").permitAll()
 
+				// Vue.js - The above could be simplified and actually completely scrapped since this app uses (poor man's) token authentication
+				.antMatchers(HttpMethod.GET, "/*").permitAll()
+
 				.anyRequest()
 				.authenticated();
 	}
