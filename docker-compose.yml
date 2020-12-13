@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  backend:
+    image: tons/surf-easy-edit
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: easyedit
+      POSTGRES_PASSWORD: easyedit
+      POSTGRES_DB: easyedit

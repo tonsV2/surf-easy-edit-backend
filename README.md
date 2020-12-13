@@ -6,7 +6,7 @@ Build surf-easy-edit-frontend using `npm run build` and make sure the path in `p
 
 # The image can be tested locally by running
 ```bash
-docker pull tons/surf-easy-edit && docker run -it -e SPRING_PROFILES_ACTIVE=test -p 8080:8080 tons/surf-easy-edit
+docker pull tons/surf-easy-edit && docker-compose up
 ```
 
 # Docker

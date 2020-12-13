@@ -53,23 +53,6 @@ spring:
     url: jdbc:postgresql://db:5432/easyedit
     username: easyedit
     password: easyedit
-server:
-  port: 80
-
----
-
-spring:
-  profiles: https
-server:
-  port: 8443
-  ssl:
-#    key-store: src/main/resources/keystore.p12
-    key-store: /etc/letsencrypt/live/easyedit.surfstation.dk/keystore.p12
-    key-store-password: password
-    keyStoreType: PKCS12
-    keyAlias: tomcat
-security:
-  require-ssl: true
 
 ---
 
