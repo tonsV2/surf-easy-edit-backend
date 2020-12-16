@@ -37,15 +37,14 @@ public class PostServiceTest {
 	private CacheManager cacheManager;
 
 	private String username;
-	private String password;
 	private User user;
-	private List<Long> postIds = new ArrayList<>();
+	private final List<Long> postIds = new ArrayList<>();
 	private long postId;
 
 	@Before
 	public void setup() {
 		username = "test" + UUID.randomUUID().toString();
-		password = "test";
+		String password = "test";
 
 		user = userService.save(username, password);
 
@@ -89,7 +88,7 @@ public class PostServiceTest {
 	}
 
 	@Test
-	public void findOneNonExistingPost() throws Exception {
+	public void findOneNonExistingPost() {
 		// Given
 		int id = 22;
 
@@ -101,7 +100,7 @@ public class PostServiceTest {
 	}
 
 	@Test
-	public void findOnePost() throws Exception {
+	public void findOnePost() {
 		// Given
 		long id = postId;
 
@@ -110,10 +109,13 @@ public class PostServiceTest {
 
 		// Then
 		assertTrue(post.isPresent());
+		assertEquals(id, post.get().getId().longValue());
+		assertEquals("title0", post.get().getTitle());
+		assertEquals("content0", post.get().getContent());
 	}
 
 	@Test
-	public void findAllByUsername() throws Exception {
+	public void findAllByUsername() {
 		// Given
 		String username = this.username;
 
@@ -121,11 +123,11 @@ public class PostServiceTest {
 		Iterable<Post> posts = postService.findAllByUsername(username);
 
 		// Then
-		assertTrue(Lists.newArrayList(posts).size() == 3);
+		assertEquals(3, Lists.newArrayList(posts).size());
 	}
 
 	@Test
-	public void findLatestByUsername() throws Exception {
+	public void findLatestByUsername() {
 		// Given
 		String username = this.username;
 
@@ -134,10 +136,12 @@ public class PostServiceTest {
 
 		// Then
 		assertTrue(post.isPresent());
+		assertEquals("title2", post.get().getTitle());
+		assertEquals("content2", post.get().getContent());
 	}
 
 	@Test(expected = EntityNotFoundException.class)
-	public void deleteNonExisting() throws Exception {
+	public void deleteNonExisting() {
 		// Given
 		int id = 666;
 
@@ -148,7 +152,7 @@ public class PostServiceTest {
 	}
 
 	@Test
-	public void deleteExisting() throws Exception {
+	public void deleteExisting() {
 		// Given
 		long id = postId;
 
