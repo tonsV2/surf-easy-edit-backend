@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.CacheManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,8 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static dk.surfstation.easyedit.service.PostService.POST_FIND_LATESTS_BY_USERNAME_CACHE_KEY;
+import static dk.surfstation.easyedit.service.PostService.POST_FIND_LATESTS_BY_USERNAME_TEST_USERNAME_VALUE;
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,12 +33,14 @@ public class PostServiceTest {
 	@Autowired
 	private PostServiceInterface postService;
 
+	@Autowired
+	private CacheManager cacheManager;
+
 	private String username;
 	private String password;
 	private User user;
 	private List<Long> postIds = new ArrayList<>();
 	private long postId;
-
 
 	@Before
 	public void setup() {
@@ -64,6 +70,22 @@ public class PostServiceTest {
 			}
 		}
 		userService.delete(user.getId());
+	}
+
+	@Test
+	public void findLatestByUsername_shouldPopulateCache() {
+		Optional<Post> post = postService.findLatestByUsername(username);
+
+		assertEquals(post, getCachedPost(username));
+	}
+
+	@Test
+	public void findLatestByUsername_shouldNotPopulateCacheWithSpecialUsername() {
+		String username = POST_FIND_LATESTS_BY_USERNAME_TEST_USERNAME_VALUE;
+
+		postService.findLatestByUsername(username);
+
+		assertEquals(empty(), getCachedPost(username));
 	}
 
 	@Test
@@ -138,4 +160,7 @@ public class PostServiceTest {
 		assertFalse(post.isPresent());
 	}
 
+	private Optional<Post> getCachedPost(String username) {
+		return ofNullable(cacheManager.getCache(POST_FIND_LATESTS_BY_USERNAME_CACHE_KEY)).map(c -> c.get(username, Post.class));
+	}
 }

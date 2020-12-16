@@ -3,7 +3,12 @@ package dk.surfstation.easyedit.service;
 import dk.surfstation.easyedit.domain.Post;
 import dk.surfstation.easyedit.domain.User;
 import dk.surfstation.easyedit.repository.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,10 @@ import java.util.Optional;
 
 @Service
 public class PostService implements PostServiceInterface {
+	final static String POST_FIND_LATESTS_BY_USERNAME_CACHE_KEY = "post.findLatestByUsername";
+	final static String POST_FIND_LATESTS_BY_USERNAME_TEST_USERNAME_VALUE = "CACHE-TEST";
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private final PostRepository postRepository;
 
 	@Autowired
@@ -21,6 +30,7 @@ public class PostService implements PostServiceInterface {
 	}
 
 	@Override
+	@Caching(evict = {@CacheEvict(value = POST_FIND_LATESTS_BY_USERNAME_CACHE_KEY, key = "#post.user.username")})
 	public Post save(Post post) {
 		return postRepository.save(post);
 	}
@@ -47,6 +57,7 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	@Transactional
+	@Cacheable(value = POST_FIND_LATESTS_BY_USERNAME_CACHE_KEY, key = "#username", unless = "#a0 == '" + POST_FIND_LATESTS_BY_USERNAME_TEST_USERNAME_VALUE + "'")
 	public Optional<Post> findLatestByUsername(String username) {
 		Post latestByUsername = postRepository.findLatestByUsername(username);
 		return Optional.ofNullable(latestByUsername);
