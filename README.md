@@ -9,28 +9,15 @@ Build surf-easy-edit-frontend using `npm run build` and make sure the path in `p
 docker pull tons/surf-easy-edit && docker-compose up
 ```
 
-# Docker
-## Build image
-./mvnw -DskipTests clean package docker:build
-
-## Run container
-docker-compose down && docker-compose up -d --build
+# Run tests
+```bash
+SPRING_PROFILES_ACTIVE=test ./mvnw test
+```
 
 # Deploy
+https://github.com/tonsV2/surf-easy-edit-chart
 
-## Openshift
- * Merge master into openshift and change to that branch
- * npm run build
- * copy the content of dist/ to /src/main/resource/static/
- * Commit everything to the branch openshift
- * git push (prod|dev) openshift:master # Push the local branch openshift to the remote branch master
-
-## Heroku
- * heroku create --region eu
- * heroku config:set SPRING_PROFILES_ACTIVE=heroku
- * git push heroku openshift:master
-
-### https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
+https://github.com/tonsV2/nuc-stack
 
 ## Create new user
 * Duplicate row from users table
